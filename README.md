@@ -25,12 +25,18 @@ npm run dev
 ```
 
 ## 简介
-&emsp;&emsp;iView admin是基于Vue.js，搭配使用[iView](https://www.iviewui.com) UI组件库形成的一套后台集成解决方案，由TalkingData前端可视化团队部分成员开发维护。iView admin遵守iView设计和开发约定，风格统一，设计考究，并且更多功能在不停开发中。
-如果您想查看iview-admin的更新动态，您可以到[更新日志](https://github.com/iview/iview-admin/releases)查看了解最新更新；如果您是新手，想快速入手iview-admin，您可以到[使用教程](https://github.com/iview/iview-admin/wiki)查看讲解；如果您想在线体验iview-admin，您可以到[在线访问](https://iview.github.io/iview-admin)体验。
+&emsp;&emsp;基于iView admin和node的练手之作。
 
 ## 功能
 
-- 登录/登出
+- 搭建基本架构
+> 复习了一遍git的ssh设置和上传  学习了node和express入门  用到了cors跨域
+> 2017/10/25
+- 基本的登陆注册功能
+> 学习了mongodb的连接，用的事mongoose模块
+> 学习了node基本的接口调用
+> 实现了查找账号密码
+> 2017/10/26
 - 权限管理
     - 列表过滤
     - 权限切换

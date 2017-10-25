@@ -60,28 +60,42 @@ export default {
     },
     methods: {
         handleSubmit () {
+            const vm = this;
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
-//                    Cookies.set('user', this.form.userName);
-//                    Cookies.set('password', this.form.password);
-//                    this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
+
+
+                }
+            });
+
+            axios.post('http://localhost:3000/login/login',{
+                user: vm.form.userName,
+                psd: vm.form.password
+            })
+            .then(function (response) {
+                console.log(response.data.state)
+                    if(response.data.state === 0) {
+                    console.log('登陆成功');
+                    Cookies.set('user', vm.form.userName);
+                    Cookies.set('password', vm.form.password);
+                    vm.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
 //                    if (this.form.userName === 'iview_admin') {
 //                        Cookies.set('access', 0);
 //                    } else {
 //                        Cookies.set('access', 1);
 //                    }
-//                    this.$router.push({
-//                        name: 'home_index'
-//                    });
-                    axios.post('http://localhost:3000/test/test')
-                        .then(function (response) {
-                            console.log(response);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
+                        vm.$router.push({
+                            name: 'home_index'
                         });
-                }
-            });
+                    }else if(response.data.state === 1) {
+                        console.log('账号密码错误');
+                    }else {
+                        console.log(response)
+                    }
+                })
+            .catch(function (error) {
+                    console.log(error);
+                });
         }
     }
 };
