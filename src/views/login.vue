@@ -73,8 +73,7 @@ export default {
                 psd: vm.form.password
             })
             .then(function (response) {
-                console.log(response.data.state)
-                    if(response.data.state === 0) {
+                    if(response.data.state === 1) {
                     console.log('登陆成功');
                     Cookies.set('user', vm.form.userName);
                     Cookies.set('password', vm.form.password);
@@ -87,7 +86,7 @@ export default {
                         vm.$router.push({
                             name: 'home_index'
                         });
-                    }else if(response.data.state === 1) {
+                    }else if(response.data.state === 0) {
                         console.log('账号密码错误');
                     }else {
                         console.log(response)

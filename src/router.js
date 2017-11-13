@@ -204,6 +204,16 @@ export const appRouter = [
         children: [
             { path: 'index', title: '错误页面', name: 'errorpage_index', component: resolve => { require(['./views/error_page/error-page.vue'], resolve); } }
         ]
+    },
+    {
+        path: '/books',
+        icon: 'android-happy',
+        title: '不如读书',
+        name: 'books',
+        component: Main,
+        children: [
+            { path: 'index', title: '不如读书', name: 'books_index', component: resolve => { require(['./views/books/books-page.vue'], resolve); } }
+        ]
     }
 ];
 
