@@ -3,17 +3,6 @@
 <template>
     <div>
         <div class="fn-left clearfix">
-            <div class="fn-addBook">
-                <Card class="reading clearfix">
-                    <p slot="title">
-                        <Icon type="android-add-circle"></Icon>
-                        新增书籍
-                    </p>
-                    <Input v-model="addBookData.bookName" placeholder="输入书籍名称"></Input>
-                    <Input v-model="addBookData.bookPageNumber" placeholder="输入书籍页码"></Input>
-                    <Button type="primary" @click="addBook">确认</Button>
-                </Card>
-            </div>
             <div class="fn-reading">
                 <Card class="reading clearfix">
                     <p slot="title">
@@ -26,6 +15,17 @@
                     <Input class="reading-input" v-model="readingData.bookPageNumberS" placeholder="起始页"></Input>
                     <Input class="reading-input" v-model="readingData.bookPageNumberE" placeholder="结束页"></Input>
                     <Button type="primary" @click="addRead">确认</Button>
+                </Card>
+            </div>
+            <div class="fn-addBook">
+                <Card class="reading clearfix">
+                    <p slot="title">
+                        <Icon type="android-add-circle"></Icon>
+                        新增书籍
+                    </p>
+                    <Input v-model="addBookData.bookName" placeholder="输入书籍名称"></Input>
+                    <Input v-model="addBookData.bookPageNumber" placeholder="输入书籍页码"></Input>
+                    <Button type="primary" @click="addBook">确认</Button>
                 </Card>
             </div>
             <div class="fn-books-table">
@@ -115,7 +115,7 @@
                                 h('Progress', {
                                     props: {
                                         status: 'active',
-                                        percent: params.row.progress
+                                        percent: parseInt(params.row.progress)
                                     }
                                 })
                             ])
