@@ -93,6 +93,7 @@ export default {
                     }
                 })
             .catch(function (error) {
+                    vm.$Message.error('登录失败,服务器错误！');
                     console.log(error);
                 });
         }
