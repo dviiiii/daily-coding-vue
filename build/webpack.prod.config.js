@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
 const fs = require('fs');
+const CleanWebpackPlugin = require('clean-webpack-plugin');  //处理dist文件夹的插件
 
 fs.open('./src/config/env.js', 'w', function(err, fd) {
     const buf = 'export default "production";';
@@ -12,11 +13,12 @@ fs.open('./src/config/env.js', 'w', function(err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: 'https://iview.github.io/iview-admin/dist/',
+        publicPath: '/dist/',
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
     plugins: [
+        new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin({
             filename: '[name].[hash].css',
             allChunks: true

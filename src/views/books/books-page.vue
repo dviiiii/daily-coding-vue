@@ -288,7 +288,7 @@
             },
             deleteBook (index) {
                 const vm = this;
-                const params = vm.bookInfo[index]
+                const params = vm.bookInfo[index];
                 axios.post('http://localhost:3000/book/deleteBook', params)
                     .then(function (res) {
                         if(res.data.state === 0) {
