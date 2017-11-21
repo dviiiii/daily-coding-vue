@@ -68,7 +68,7 @@ export default {
                 }
             });
 
-            axios.post('http://localhost:3000/login/login',{
+            axios.post('/api/login/login',{
                 user: vm.form.userName,
                 psd: vm.form.password
             })

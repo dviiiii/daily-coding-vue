@@ -170,7 +170,7 @@
                     vm.$Message.warning('页数只能为正整数！');
                     return false;
                 }
-                axios.post('http://localhost:3000/book/addBook',parmas)
+                axios.post('/api/book/addBook',parmas)
                     .then(function (response) {
                         if(response.data.state === 1) {
                             vm.$Message.success('新增成功！');
@@ -221,7 +221,7 @@
                     }
                 }
 
-                axios.post('http://localhost:3000/book/addReading',parmas)
+                axios.post('/api/book/addReading',parmas)
                     .then(function (res) {
                         if(res.data.state === 1) {
                             vm.$Message.success('新增成功！');
@@ -239,7 +239,7 @@
             //查询书籍信息
             queryBookInfo () {
                 const vm = this;
-                axios.get('http://localhost:3000/book/queryBookInfo')
+                axios.get('/api/book/queryBookInfo')
                     .then(function (res) {
                         if(res.data.state === 0) {
                             vm.$Message.error('获取书籍信息失败！');
@@ -255,7 +255,7 @@
             //查询复习信息
             queryReviewInfo () {
                 const vm = this;
-                axios.get('http://localhost:3000/book/queryReviewInfo')
+                axios.get('/api/book/queryReviewInfo')
                     .then(function (res) {
                         if(res.data.state === 0) {
                             vm.$Message.error('获取复习信息失败！');
@@ -272,7 +272,7 @@
             checkReview (index) {
                 const vm = this;
                 const params = vm.reviewInfo[index];
-                axios.post('http://localhost:3000/book/checkReview', params)
+                axios.post('/api/book/checkReview', params)
                     .then(function (res) {
                         if(res.data.state === 0) {
                             vm.$Message.error('更新复习信息失败！');
@@ -289,7 +289,7 @@
             deleteBook (index) {
                 const vm = this;
                 const params = vm.bookInfo[index];
-                axios.post('http://localhost:3000/book/deleteBook', params)
+                axios.post('/api/book/deleteBook', params)
                     .then(function (res) {
                         if(res.data.state === 0) {
                             vm.$Message.error('删除书籍失败！');
