@@ -5,7 +5,7 @@ let util = {
 
 };
 util.title = function (title) {
-    title = title || 'iView admin';
+    title = title || '日常修仙';
     window.document.title = title;
 };
 

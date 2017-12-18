@@ -68,7 +68,7 @@ export default {
                 }
             });
 
-            axios.post('/api/login/login',{
+            axios.post('http://localhost:3000/login/login',{
                 user: vm.form.userName,
                 psd: vm.form.password
             })
@@ -76,7 +76,6 @@ export default {
                     if(response.data.state === 1) {
                     console.log('登陆成功');
                     Cookies.set('user', vm.form.userName);
-                    Cookies.set('password', vm.form.password);
                     vm.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
 //                    if (this.form.userName === 'iview_admin') {
 //                        Cookies.set('access', 0);
