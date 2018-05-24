@@ -25,6 +25,10 @@
                     </p>
                     <Input v-model="addBookData.bookName" placeholder="输入书籍名称"></Input>
                     <Input v-model="addBookData.bookPageNumber" placeholder="输入书籍页码"></Input>
+                    <Select v-model="addBookData.bookSort">
+                        <Option value="0">精读</Option>
+                        <Option value="1">粗读</Option>
+                    </Select>
                     <Button type="primary" @click="addBook">确认</Button>
                 </Card>
             </div>
@@ -38,15 +42,15 @@
                 </Card>
             </div>
         </div>
-            <div class="fn-right">
-                <Card class="review-table clearfix">
-                    <p slot="title">
-                        <Icon type="bookmark"></Icon>
-                        今日待复习
-                    </p>
-                    <Table :columns="reviewColumns" :data="reviewInfo"></Table>
-                </Card>
-            </div>
+        <div class="fn-right">
+            <Card class="review-table clearfix">
+                <p slot="title">
+                    <Icon type="bookmark"></Icon>
+                    今日待复习
+                </p>
+                <Table :columns="reviewColumns" :data="reviewInfo"></Table>
+            </Card>
+        </div>
 
 
     </div>
@@ -60,7 +64,8 @@
             return {
                 addBookData: {
                     bookName: '',
-                    bookPageNumber: ''
+                    bookPageNumber: '',
+                    bookSort: ''
                 },
                 bookInfo: [],
                 readingData: {
@@ -156,8 +161,10 @@
                 const vm = this;
                 const parmas = {
                     bookName: vm.addBookData.bookName,
-                    bookPageNumber: vm.addBookData.bookPageNumber
+                    bookPageNumber: vm.addBookData.bookPageNumber,
+                    bookSort: vm.addBookData.bookSort
                 };
+                console.log(parmas)
                 if(!parmas.bookName) {
                     vm.$Message.warning('书名不能为空！');
                     return false;
@@ -173,13 +180,12 @@
                 axios.post('http://localhost:3000/book/addBook',parmas)
                     .then(function (response) {
                         if(response.data.state === 1) {
-                            vm.$Message.success('新增成功！');
+                            vm.$Message.success(response.data.msg);
                         }else if(response.data.state === 0) {
-                            vm.$Message.error('新增失败！');
-                        }else if(response.data.state === 2) {
-                            vm.$Message.warning('不得增加重复书籍！');
+                            vm.$Message.warning(response.data.msg);
                         }else {
-                            console.log(response)
+                            console.log(response);
+                            vm.$Message.error('数据错误！');
                         }
                     })
                     .catch(function (error) {
