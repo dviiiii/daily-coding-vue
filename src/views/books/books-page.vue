@@ -9,8 +9,8 @@
                         <Icon type="ios-book"></Icon>
                         今日已读
                     </p>
-                    <Select v-model="readingData.bookName">
-                        <Option v-for="item in bookInfo" :value="item.bookName" :key="item.bookName">{{ item.bookName }}</Option>
+                    <Select v-model="readingData.bookid">
+                        <Option v-for="item in bookInfo" :value="item.id" :key="item.bookname">{{ item.bookname }}</Option>
                     </Select>
                     <Input class="reading-input" v-model="readingData.bookPageNumberS" placeholder="起始页"></Input>
                     <Input class="reading-input" v-model="readingData.bookPageNumberE" placeholder="结束页"></Input>
@@ -69,7 +69,7 @@
                 },
                 bookInfo: [],
                 readingData: {
-                    bookName: '',
+                    bookid: '',
                     bookPageNumberS: '',
                     bookPageNumberE: ''
                 },
@@ -152,7 +152,7 @@
             }
         },
         mounted () {
-            this.queryBookInfo();
+            this.queryBookList();
             this.queryReviewInfo();
         },
         methods: {
@@ -197,12 +197,12 @@
             addRead () {
                 const vm = this;
                 let parmas = {
-                    bookName: vm.readingData.bookName,
+                    bookid: vm.readingData.bookid,
                     bookPageNumberS: vm.readingData.bookPageNumberS,
                     bookPageNumberE: vm.readingData.bookPageNumberE
                 };
-                if(!parmas.bookName) {
-                    vm.$Message.warning('书名不能为空！');
+                if(!parmas.bookid) {
+                    vm.$Message.warning('书呢？');
                     return false;
                 }
                 if(!parmas.bookPageNumberS || !parmas.bookPageNumberE) {
@@ -217,11 +217,11 @@
                 let bookPageNumber;
 
                 for(let i in vm.bookInfo) {
-                    if(vm.bookInfo[i].bookName === parmas.bookName  ) {
-                        parmas.bookPageNumber = vm.bookInfo[i].bookPageNumber;
+                    if(vm.bookInfo[i].id === parmas.bookid  ) {
+                        parmas.bookPageNumber = vm.bookInfo[i].pagenumber;
 
-                        if((parseInt(parmas.bookPageNumberE) > parseInt(vm.bookInfo[i].bookPageNumber) || parseInt(parmas.bookPageNumberS) > parseInt(vm.bookInfo[i].bookPageNumber))) {
-                            vm.$Message.warning(`页数最大为${vm.bookInfo[i].bookPageNumber}！`);
+                        if((parseInt(parmas.bookPageNumberE) > parseInt(vm.bookInfo[i].pagenumber) || parseInt(parmas.bookPageNumberS) > parseInt(vm.bookInfo[i].bookPageNumber))) {
+                            vm.$Message.warning(`页数最大为${vm.bookInfo[i].pagenumber}！`);
                             return false;
                         }
                     }
@@ -243,12 +243,13 @@
                     });
             },
             //查询书籍信息
-            queryBookInfo () {
+            queryBookList () {
                 const vm = this;
-                axios.get('http://localhost:3000/book/queryBookInfo')
+                axios.get('http://localhost:3000/book/queryBookList')
                     .then(function (res) {
-                        if(res.data.state === 0) {
-                            vm.$Message.error('获取书籍信息失败！');
+                        console.log(res)
+                        if(res.data.length === 0) {
+                            vm.$Message.error('书库里买没有书哦！');
                         }else {
                             vm.bookInfo = res.data;
                         }
