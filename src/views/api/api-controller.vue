@@ -171,7 +171,7 @@
                     return false;
                 }
 
-                axios.post('http://localhost:3000/api/addApiType',{apiTypeName: vm.addApiTypeName})
+                axios.post('/api/api/addApiType',{apiTypeName: vm.addApiTypeName})
                     .then(function (response) {
                         if(response.data.state === 1) {
                             vm.$Message.success('新增成功！');
@@ -198,7 +198,7 @@
                     return false;
                 }
 
-                axios.post('http://localhost:3000/api/deleteApiType',{apiTypeName: vm.selectApiTypeName})
+                axios.post('/api/api/deleteApiType',{apiTypeName: vm.selectApiTypeName})
                     .then(function (response) {
                         if(response.data.state === 1) {
                             vm.$Message.success('删除成功！');
@@ -218,7 +218,7 @@
             queryApiType () {
                 const vm = this;
                 vm.selectApiTypeName = '';
-                axios.get('http://localhost:3000/api/queryApiType')
+                axios.get('/api/api/queryApiType')
                     .then(function (res) {
                         if(res.data.state === 0) {
                             vm.$Message.error('获取API类别信息失败！');
@@ -259,7 +259,7 @@
                     apiItemDetailMD: vm.addApiItemData.apiItemDetailMD
                 };
 
-                axios.post('http://localhost:3000/api/addApiItem',opt)
+                axios.post('/api/api/addApiItem',opt)
                     .then(function (response) {
                         if(response.data.state === 1) {
                             vm.$Message.success('新增成功！');
@@ -279,7 +279,7 @@
             queryApiItem () {
                 const vm = this;
                 const opt = {apiTypeName: vm.selectApiTypeName, apiItemTitle: vm.apiTypeData.apiItemTitle};
-                axios.post('http://localhost:3000/api/queryApiItem', opt)
+                axios.post('/api/api/queryApiItem', opt)
                     .then(function (res) {
                         if(res.data.state === 0) {
                             vm.$Message.error('获取API信息失败！');

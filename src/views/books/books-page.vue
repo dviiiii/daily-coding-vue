@@ -77,12 +77,12 @@
                 reviewColumns: [
                     {
                         title: '书名',
-                        key: 'bookName'
+                        key: 'bookname'
                     },
                     {
                         title: '页码',
                         render: (h, params) => {
-                            return params.row.bookPageNumberS + '-' + params.row.bookPageNumberE;
+                            return h('div',params.row.start_page + '-' + params.row.end_page);
                         }
                     },
                     {
@@ -100,7 +100,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.checkReview(params.index);
+                                            this.checkReview(params.row.id, params.row.review_times);
                                         }
                                     }
                                 }, '已复习')
@@ -111,7 +111,7 @@
                 booksColumns: [
                     {
                         title: '书名',
-                        key: 'bookName'
+                        key: 'bookname'
                     },
                     {
                         title: '进度',
@@ -141,7 +141,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.deleteBook(params.index)
+                                            this.deleteBook(params.row.id)
                                         }
                                     }
                                 }, '删除')
@@ -159,6 +159,7 @@
             //增加书籍
             addBook () {
                 const vm = this;
+
                 const parmas = {
                     bookName: vm.addBookData.bookName,
                     bookPageNumber: vm.addBookData.bookPageNumber,
@@ -177,7 +178,7 @@
                     vm.$Message.warning('页数只能为正整数！');
                     return false;
                 }
-                axios.post('http://localhost:3000/book/addBook',parmas)
+                axios.post('/api/book/addBook',parmas)
                     .then(function (response) {
                         if(response.data.state === 1) {
                             vm.$Message.success(response.data.msg);
@@ -196,10 +197,20 @@
             //增加今日所读
             addRead () {
                 const vm = this;
+
+                let bookSumPage;
+                for(let i in vm.bookInfo) {
+                    if(vm.bookInfo[i].id === vm.readingData.bookid){
+                        bookSumPage = vm.bookInfo[i].pagenumber;
+                        break;
+                    }
+                }
+
                 let parmas = {
                     bookid: vm.readingData.bookid,
                     bookPageNumberS: vm.readingData.bookPageNumberS,
-                    bookPageNumberE: vm.readingData.bookPageNumberE
+                    bookPageNumberE: vm.readingData.bookPageNumberE,
+                    pagenumber: bookSumPage
                 };
                 if(!parmas.bookid) {
                     vm.$Message.warning('书呢？');
@@ -227,11 +238,12 @@
                     }
                 }
 
-                axios.post('http://localhost:3000/book/addReading',parmas)
+                axios.post('/api/book/addReading',parmas)
                     .then(function (res) {
-                        if(res.data.state === 1) {
+                        if(res.data.state === 0) {
                             vm.$Message.success('新增成功！');
-                        }else if(res.data.state === 0) {
+                            vm.queryBookList();
+                        }else if(res.data.state === 1) {
                             vm.$Message.error('新增失败！');
                         }else {
                             console.log(res)
@@ -245,7 +257,7 @@
             //查询书籍信息
             queryBookList () {
                 const vm = this;
-                axios.get('http://localhost:3000/book/queryBookList')
+                axios.get('/api/book/queryBookList')
                     .then(function (res) {
                         console.log(res)
                         if(res.data.length === 0) {
@@ -262,12 +274,12 @@
             //查询复习信息
             queryReviewInfo () {
                 const vm = this;
-                axios.get('http://localhost:3000/book/queryReviewInfo')
+                axios.get('/api/book/queryReviewInfo')
                     .then(function (res) {
-                        if(res.data.state === 0) {
+                        if(res.data.state === 1) {
                             vm.$Message.error('获取复习信息失败！');
                         }else {
-                            vm.reviewInfo = res.data;
+                            vm.reviewInfo = res.data.data;
                         }
                     })
                     .catch(function (err) {
@@ -276,12 +288,17 @@
                     });
             },
             //已复习
-            checkReview (index) {
+            checkReview (id, review_times) {
                 const vm = this;
-                const params = vm.reviewInfo[index];
-                axios.post('http://localhost:3000/book/checkReview', params)
+
+                const params = {
+                    id: id,
+                    review_times: review_times
+                };
+
+                axios.post('/api/book/checkReview', params)
                     .then(function (res) {
-                        if(res.data.state === 0) {
+                        if(res.data.state === 1) {
                             vm.$Message.error('更新复习信息失败！');
                         }else {
                             vm.$Message.success('更新复习信息成功！');
@@ -293,16 +310,16 @@
                         vm.$Message.error('更新复习信息失败！');
                     })
             },
-            deleteBook (index) {
+            deleteBook (id) {
                 const vm = this;
-                const params = vm.bookInfo[index];
-                axios.post('http://localhost:3000/book/deleteBook', params)
+                console.log(id)
+                axios.post('/api/book/deleteBook', {id: id})
                     .then(function (res) {
-                        if(res.data.state === 0) {
+                        if(res.data.state === 1) {
                             vm.$Message.error('删除书籍失败！');
                         }else {
                             vm.$Message.success('删除书籍成功！');
-                            vm.queryBookInfo();
+                            vm.queryBookList();
                         }
                     })
                     .catch(function (err) {
