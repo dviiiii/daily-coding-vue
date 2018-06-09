@@ -31,7 +31,12 @@
                     </div>
                 </Card>
             </div>
-
+            <div>
+                <Card class="clearfix">
+                    <al-selector level="1" v-model="res_s"/>
+                    <al-cascader level="2" v-model="res_c"/>
+                </Card>
+            </div>
         </div>
 
         <div class="side-right">
@@ -77,6 +82,8 @@
         name: 'books',
         data () {
             return {
+                res_s: [],
+                res_c: [],
                 modelData: {
                     addApiTypeModal: false,
                     addApiItemModal: false

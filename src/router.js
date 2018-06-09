@@ -224,6 +224,16 @@ export const appRouter = [
         children: [
             { path: 'index', title: '知识点管理', name: 'api_index', component: resolve => { require(['./views/api/api-controller.vue'], resolve); } }
         ]
+    },
+    {
+        path: '/test',
+        icon: 'paper-airplane',
+        title: 'test',
+        name: 'test',
+        component: Main,
+        children: [
+            { path: 'index', title: 'test', name: 'test_index', component: resolve => { require(['./views/test/test-cropper.vue'], resolve); } }
+        ]
     }
 ];
 

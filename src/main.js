@@ -13,7 +13,10 @@ import Locales from './locale';
 import zhLocale from 'iview/src/locale/lang/zh-CN';
 import enLocale from 'iview/src/locale/lang/en-US';
 import zhTLocale from 'iview/src/locale/lang/zh-TW';
+import iviewArea from 'iview-area';
 
+
+Vue.use(iviewArea);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueI18n);
