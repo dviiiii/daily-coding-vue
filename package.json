@@ -17,7 +17,7 @@
     "clipboard": "^1.5.12",
     "countup": "^1.8.2",
     "cropper": "^4.0.0",
-    "cropperjs": "^1.1.2",
+    "cropperjs": "^1.4.0",
     "echarts": "^3.7.2",
     "highlight": "^0.2.4",
     "html2canvas": "^0.5.0-beta4",
