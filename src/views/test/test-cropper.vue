@@ -70,6 +70,15 @@
             </Col>
         </Row>
 
+        <div>
+            <Upload
+                    :before-upload="handleUpload1"
+                    action="">
+                <Button type="ghost" icon="ios-cloud-upload-outline">Select the file to upload</Button>
+            </Upload>
+            <div v-if="file !== null">Upload file: {{ file.name }} <Button type="text" @click="upload" :loading="loadingStatus">{{ loadingStatus ? 'Uploading' : 'Click to upload' }}</Button></div>
+        </div>
+
 
         <Modal width="980"
                v-model="modal1"
@@ -104,6 +113,7 @@
             return {
                 modal1: false,
                 imgUrl: '/src/views/test/cropper/img/picture.jpg',
+                file: null,
 
             }
         },
@@ -111,6 +121,33 @@
 
         },
         methods: {
+            handleUpload1 (file) {
+                this.file = file;
+                return false;
+            },
+            upload () {
+                let params = new FormData();
+                // 将readyFile中的文件添加到FormData中
+//                this.file.forEach(file => params.append(file.name, file));
+                console.log(this.file)
+                params.append('file', this.file)
+                // params.append('Authorization', sessionStorage.JWT_TOKEN); // token验证上传权限
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+                axios.post('/api/test/upfile', params, config)
+                    .then(res => {
+//                        if (res.data.status === '1') {
+//                            this.readyFiles = [];
+//                            this.handleSuccessUpload();// 由于是手工制作的上传，所以上传成功也不会触发iview组件的成功回掉函数
+//                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
             handleUpload (file) {
                 const vm = this;
                 const image = document.getElementById('image');
